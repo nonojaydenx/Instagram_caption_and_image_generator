@@ -1,0 +1,248 @@
+# Import NLTK library to use stopwords module
+import nltk
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+
+# Define a function to get user inputs
+def get_user_inputs():
+  # Prompt user to enter topic URL
+  topic_url = input("Enter the topic: ")
+  # Prompt user to enter any additional details
+  details = input("Enter any additional details: ")
+  # Prompt user to enter any keywords
+  keywords = input("Enter any keywords: ").split(",")
+  # Prompt user to enter the context or purpose
+  context = input("Enter the context: ")
+
+  # Convert all inputs to lowercase
+  topic_url = topic_url.lower()
+  details = details.lower()
+  keywords = [keyword.lower() for keyword in keywords]
+  context = context.lower()
+
+  # Remove any stop words from the inputs
+  stop_words = set(stopwords.words('english'))
+  topic_url = ' '.join([word for word in topic_url.split() if word not in stop_words])
+  details = ' '.join([word for word in details.split() if word not in stop_words])
+  keywords = [word for word in keywords if word not in stop_words]
+  context = ' '.join([word for word in context.split() if word not in stop_words])
+
+  # Combine all inputs into one string
+  input_string = f'{topic_url} {details} {" ".join(keywords)} {context}'
+
+  # Create a dictionary of user inputs
+  user_inputs = {
+    "topic_url": topic_url,
+    "details": details,
+    "keywords": keywords,
+    "context": context,
+    "input_string": input_string
+  }
+
+  # Return the user_inputs dictionary
+  return user_inputs
+
+# Import web_pilot plugin to enhance web search and query functionality
+import web_pilot
+
+# Define a function to get sources related to user inputs
+def get_sources(user_inputs):
+  # Use search_query method to search for and analyze relevant sources
+  news_source = "#search_query " + user_inputs["input_string"] + " news"
+  social_media_source = "#search_query " + user_inputs["input_string"] + " social media"
+  other_source = "#search_query " + user_inputs["input_string"]
+
+  # Convert each source to lowercase
+  news_source = news_source.lower()
+  social_media_source = social_media_source.lower()
+  other_source = other_source.lower()
+
+# Remove any stop words from each source
+  stop_words = set(stopwords.words('english'))
+  news_source = ' '.join([word for word in news_source.split() if word not in stop_words])
+  social_media_source = ' '.join([word for word in social_media_source.split() if word not in stop_words])
+  other_source = ' '.join([word for word in other_source.split() if word not in stop_words])
+
+  # Create a list of sources
+  sources = [news_source, social_media_source, other_source]
+
+  # Return the sources list
+  return sources
+
+Import gpt_3 library to use OpenAI's GPT-3 natural language generation model
+import gpt_3
+
+Import instagram_format library to use Instagram's formatting options for captions and cover photos
+import instagram_format
+
+Define a function to generate a caption based on user inputs and sources
+def generate_caption(user_inputs, sources):
+  Use variables to store and recall user instructions related to caption generation
+  tone = user_inputs["tone"]
+  style = user_inputs["style"]
+  personality = user_inputs["personality"]
+  format = user_inputs["format"]
+
+Use indexing to map and retrieve specific portions of user instructions related to caption generation
+  title_index = format.index("title")
+  emoji_index = format.index("emoji")
+  description_index = format.index("description")
+  question_index = format.index("question")
+  quote_index = format.index("quote")
+  call_to_action_index = format.index("call_to_action")
+
+  Use search feature to search for relevant images keywords hashtags etc. to use in the caption
+  images = "#search_query " + user_inputs["input_string"] + " images"
+  keywords = "#search_query " + user_inputs["input_string"] + " keywords"
+  hashtags = "#search_query " + user_inputs["input_string"] + " hashtags"
+
+  Use social media analytics feature to track the performance of the user's Instagram posts and use that information to optimize the outputs
+  engagement_rate = "#social_media_analytics " + user_inputs["ig_account_url"] + " engagement_rate"
+  content_type_distribution = "#social_media_analytics " + user_inputs["ig_account_url"] + " content_type_distribution"
+  hashtags_used = "#social_media_analytics " + user_inputs["ig_account_url"] + " hashtags_used"
+
+  Use machine learning feature to learn from the user's inputs and feedback to improve the outputs and processes
+  feedback = "#machine_learning " + user_inputs["feedback"]
+  improvement = "#machine_learning " + feedback + " improvement"
+
+  Use sentiment analysis feature to analyze the user's inputs outputs emotions etc. to generate higher quality captions
+  sentiment = "#sentiment_analysis " + user_inputs["input_string"] 
+  emotion = “#sentiment_analysis " + sentiment + " emotion”
+
+Use data visualization feature to present graphs charts tables etc. that show the performance and analytics of their Instagram posts
+graph = "#data_visualization " + engagement_rate + " graph"
+chart = "#data_visualization " + content_type_distribution + " chart"
+table = "#data_visualization " + hashtags_used + " table"
+
+Use content optimization feature to automatically generate alternative captions based on different criteria such as length tone style personality etc.
+short_caption = "#content_optimization " + user_inputs["input_string"] + " short_caption"
+long_caption = "#content_optimization " + user_inputs["input_string"] + " long_caption"
+humorous_caption = "#content_optimization " + user_inputs["input_string"] + " humorous_caption"
+serious_caption = "#content_optimization " + user_inputs["input_string"] + " serious_caption"
+
+Use the content personalization feature to tailor the captions to the user's profile preferences goals etc.
+personalized_caption = "#content_personalization " + user_inputs["input_string"] + " personalized_caption"
+
+Define a function to generate a caption based on user inputs and sources
+def generate_caption(user_inputs, sources):
+    ...
+    caption = gpt_3.generate_text(
+        input=user_inputs["input_string"],
+        output_format=format,
+        tone=tone,
+        style=style,
+        personality=personality,
+        images=images,
+        keywords=keywords,
+        hashtags=hashtags,
+        sources=sources,
+        feedback=feedback,
+        improvement=improvement,
+        sentiment=sentiment,
+        emotion=emotion,
+        graph=graph,
+        chart=chart,
+        table=table,
+        short_caption=short_caption,
+        long_caption=long_caption,
+        humorous_caption=humorous_caption,
+        serious_caption=serious_caption,
+        personalized_caption=personalized_caption
+    )
+
+    print("Generated Caption:", caption)  Print the caption immediately
+
+    Format the caption with double line breaks between sections and enclose it within a code block using three backticks (`) at the start and end
+    caption = instagram_format.format_caption(caption)
+
+    if len(caption) > 2200:
+        return "Caption is too long. Please revise and shorten it."
+    else:
+        return caption
+
+Import Dall-E library to use OpenAI’s Dall-E generative image model
+import dall_e
+
+Import bing_image_viewer library to display images
+import bing_image_viewer
+
+Define a function to generate an image based on user inputs and sources
+def generate_image(user_inputs, sources): # Use variables to store and recall user instructions related to image generation resolution = user_inputs[“resolution”] quality = user_inputs[“quality”] style = user_inputs[“style”] textures = user_inputs[“textures”]
+
+# Use indexing to map and retrieve specific portions of user instructions related to image generation
+title_index = format.index("title")
+emoji_index = format.index("emoji")
+description_index = format.index("description")
+
+# Use search feature to search for relevant images keywords hashtags etc. to use in the image
+images = "#search_query " + user_inputs["input_string"] + " images"
+keywords = "#search_query " + user_inputs["input_string"] + " keywords"
+hashtags = "#search_query " + user_inputs["input_string"] + " hashtags"
+
+# Use video and image recognition feature to automatically recognize objects people places etc. using any images or videos that you find in your search
+objects = "#video_and_image_recognition " + images + " objects"
+people = “#video_and_image_recognition " + images + " people” places = “#video_and_image_recognition " + images + " places”
+
+# Use social media analytics feature to track the performance of the user's Instagram posts and use that information to optimize the outputs
+engagement_rate = "#social_media_analytics " + user_inputs["ig_account_url"] + " engagement_rate"
+content_type_distribution = "#social_media_analytics " + user_inputs["ig_account_url"] + " content_type_distribution"
+hashtags_used = "#social_media_analytics " + user_inputs["ig_account_url"] + " hashtags_used"
+
+# Use machine learning feature to learn from the user's inputs and feedback to improve the outputs and processes
+feedback = "#machine_learning " + user_inputs["feedback"]
+improvement = "#machine_learning " + feedback + " improvement"
+
+# Use sentiment analysis feature to analyze the user's inputs outputs emotions etc. to generate higher quality images
+sentiment = "#sentiment_analysis " + user_inputs["input_string"]
+emotion = "#sentiment_analysis " + sentiment + " emotion"
+
+# Use data visualization feature to present graphs charts tables etc. that show the performance and analytics of their Instagram posts
+graph = "#data_visualization " + engagement_rate + " graph"
+chart = "#data_visualization " + content_type_distribution + " chart"
+table = "#data_visualization " + hashtags_used + " table"
+
+# Use content optimization feature to automatically generate alternative images based on different criteria such as resolution quality style textures etc.
+low_resolution_image = "#content_optimization " + user_inputs["input_string"] + " low_resolution_image"
+high_resolution_image = "#content_optimization " + user_inputs["input_string"] + " high_resolution_image"
+realistic_image = "#content_optimization " + user_inputs["input_string"] + " realistic_image"
+artistic_image = "#content_optimization " + user_inputs["input_string"] + " artistic_image"
+light_image = "#content_optimization " + user_inputs["input_string"] + " light_image"
+dark_image = "#content_optimization " + user_inputs["input_string"] + " dark_image"
+
+Use the content personalization feature to tailor the images to the user's profile preferences goals etc.
+personalized_image = "#content_personalization " + user_inputs["input_string"] + " personalized_image"
+
+Use image processing techniques to render and generate an image that reflects key elements of the user title and description in the caption such as colors shapes patterns etc. using Dall-E
+image = dall_e.generate_image(
+  input=user_inputs["input_string"],
+  output_format="image",
+  resolution=resolution,
+  quality=quality,
+  style=style,
+  textures=textures,
+  images=images,
+  keywords=keywords,
+  hashtags=hashtags,
+  sources=sources,
+  feedback=feedback,
+  improvement=improvement,
+  sentiment=sentiment,
+  emotion=emotion,
+  graph=graph,
+  chart=chart,
+  table=table,
+  low_resolution_image=low_resolution_image,
+  high_resolution_image=high_resolution_image,
+  realistic_image=realistic_image,
+  artistic_image=artistic_image,
+  light_image=light_image,
+  dark_image=dark_image,
+  personalized_image=personalized_image
+)
+
+# Display the image using bing_image_viewer
+bing_image_viewer.display(image)
+
+# Return the image object
+return image
+
